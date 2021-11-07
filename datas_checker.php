@@ -167,33 +167,3 @@ class datas_checker
     }
 
 }
-
-
-$datas = [
-            ["creation_date" => "2016-01-01", "first_name" => "John", "last_name" => "Paul", "id" => 24, "ip" => "192.25.14.2", "email" => "tata@test.com"],
-            ["creation_date" => "q201-01-01", "first_name" => 4, "last_name" => "Paul", "id" => "24", "ip" => "toto", "email" => "tata@test"],
-            ["creation_date" => "2012-05-04", "first_name" => "yes", "last_name" => "true", "id" => "paul", "ip" => "192.25.14.2", "email" => "tata@jetable.org"]
-        ];
-
-/*$array_to_check = [
-    "creation_date" => ["required", "is_date", "superior_to" => "2016-01-01", "error_message" => "la date de création est inférieur à la date"],
-    "first_name" => ["required", "is_string", "lenght_superior" => 2, "error_message" => "le nom n'est pas un mot ou est inférieur à 2 lettres"],
-    "last_name" => ["required", "is_string", "lenght_superior" => 1, "error_message" => "le prénom n'est pas un mot ou est inférieur à 1 lettres"],
-    "id" => ["required", "is_int", "error_message" => "l'id est manquant ou n'est pas un chiffre"],
-    "ip" => ["required", "is_ipadress", "error_message" => "l'adresse ip est manquante ou n'est pas une ip valide"],
-    "email" => ["required", "is_email", "disposable_email"]
-];*/
-
-$check_test = [
-    "creation_date" => ["required", "is_date", "superior_to" => "2016-01-01", "error_message" => "the creation date isn't date or be superior to '2016-01-01'"],
-    "first_name" => ["required", "is_string", "lenght_superior" => 2, "error_message" => "the firstname isn't a word or be inferior to 2 characters"],
-    "last_name" => ["required", "is_string", "lenght_superior" => 1, "error_message" => "the name isn't a word or be inferior to 1 characters"],
-    "id" => ["required", "is_int", "error_message" => "the id doesn't exist or not an integer"],
-    "ip" => ["required", "is_ipadress", "error_message" => "the ip adress doesn't exist or not an valid ip adress"],
-    "email" => ["required", "is_email", "disposable_email"]
-];
-
-$checker = new datas_checker();
-$isCorrectDatas = $checker->check($datas, $check_test);
-
-var_dump($isCorrectDatas);
