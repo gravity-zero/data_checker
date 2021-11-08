@@ -1,6 +1,6 @@
 # datas_checker
 
-As its name suggests, data verifier allows you to quickly check if your element array is valid according to your criteria:
+As its name suggests, data checker allows you to quickly check if your element array is valid according to your criteria:
 
 - String
 - String: minimum and maximum number of characters
@@ -24,17 +24,17 @@ $datas_to_check = [
                     ["creation_date" => "2012-05-04", "first_name" => "yes", "last_name" => "true", "id" => "paul", "ip" => "192.25.14.2", "email" => "tata@jetable.org"]
                   ];
         
-$check_test = [
-                "creation_date" => ["required", "is_date", "superior_to" => "2016-01-01", "error_message" => "the creation date isn't date or be superior to '2016-01-01'"],
-                "first_name" => ["required", "is_string", "lenght_superior" => 2, "error_message" => "the firstname isn't a word or be inferior to 2 characters"],
-                "last_name" => ["required", "is_string", "lenght_superior" => 1, "error_message" => "the name isn't a word or be inferior to 1 characters"],
+$control_tests = [
+                "creation_date" => ["required", "is_date", "greater_than" => "2016-01-01", "error_message" => "the creation date isn't date or be superior to '2016-01-01'"],
+                "first_name" => ["required", "is_string", "lenght_greater" => 2, "error_message" => "the firstname isn't a word or be inferior to 2 characters"],
+                "last_name" => ["required", "is_string", "lenght_greater" => 1, "error_message" => "the name isn't a word or be inferior to 1 characters"],
                 "id" => ["required", "is_int", "error_message" => "the id doesn't exist or not an integer"],
-                "ip" => ["required", "is_ipadress", "error_message" => "the ip adress doesn't exist or not an valid ip adress"],
+                "ip" => ["required", "is_ipadress", "error_message" => "the ip address doesn't exist or not a valid ip address"],
                 "email" => ["required", "is_email", "disposable_email"]
               ];
                   
 $datas_control = new datas_checker();
-$isCorrectDatas = $datas_control->check($datas, $array_to_check);
+$isCorrectDatas = $datas_control->check($datas, $control_tests);
 ```
 
 Here we've got return errors for the first and second row of $datas_to_check.
@@ -90,16 +90,17 @@ Here are the different methods currently implemented to verify your data set:
   ````
    - required (check null & empty values)
    - is_date
-   - superior_to (work with dates, numerics or int values)
-   - inferior_to (work with dates, numerics or int values)
+   - greater_than (works with dates, numerics or int values)
+   - lower_than (works with dates, numerics or int values)
    - is_string
-   - lenght_superior
-   - lenght_inferior
+   - lenght_greater
+   - lenght_lower
    - is_ipadress (IPV4 & IPV6)
    - is_email
    - disposable_email
    - street_address
    - is_int
+   - is_alphanumeric
    - is_numeric
   ````
 

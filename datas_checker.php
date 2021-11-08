@@ -19,9 +19,9 @@ class datas_checker
     {
         if($this->array_control($datas, $check_rules))
         {
-            foreach($check_rules as $key_control=>$controls)
+            foreach ($datas as $data)
             {
-                foreach ($datas as $data)
+                foreach($check_rules as $key_control=>$controls)
                 {
                     if(array_key_exists($key_control, $data))
                     {
@@ -118,33 +118,39 @@ class datas_checker
         return true;
     }
 
-    private function superior_to($data, $superior_to)
+    private function greater_than($data, $greater_than)
     {
-        if($data < $superior_to) return false;
+        if($data < $greater_than) return false;
         return true;
     }
 
-    private function inferior_to($data, $inferior_to)
+    private function lower_than($data, $lower_than)
     {
-        if($data > $inferior_to) return false;
+        if($data > $lower_than) return false;
         return true;
     }
 
-    private function lenght_superior($data, $superior_to)
+    private function lenght_greater($data, $lenght_greater)
     {
-        if(strlen($data) < $superior_to) return false;
+        if(strlen($data) < $lenght_greater) return false;
         return true;
     }
 
-    private function lenght_inferior($data, $inferior_to)
+    private function lenght_lower($data, $lenght_lower)
     {
-        if(strlen($data) > $inferior_to) return false;
+        if(strlen($data) > $lenght_lower) return false;
         return true;
     }
 
     private function is_string($data)
     {
         if(!is_string($data)) return false;
+        return true;
+    }
+
+    private function is_alphanumeric($data)
+    {
+        if(!ctype_alnum($data)) return false;
         return true;
     }
 
