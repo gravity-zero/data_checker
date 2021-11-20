@@ -19,9 +19,9 @@ PHP version >= 5.4
 
 ```php 
 $datas_to_check = [
-                    ["creation_date" => "2016-01-01", "first_name" => "John", "last_name" => "Paul", "id" => 24, "ip" => "192.25.14.2", "email" => "tata@test.com"],
-                    ["creation_date" => "q201-01-01", "first_name" => 4, "last_name" => "Paul", "id" => "24", "ip" => "toto", "email" => "tata@test"],
-                    ["creation_date" => "2012-05-04", "first_name" => "yes", "last_name" => "true", "id" => "paul", "ip" => "192.25.14.2", "email" => "tata@jetable.org"]
+                    ["creation_date" => "2016-01-01", "first_name" => "John", "last_name" => "Paul", "id" => 24, "ip" => "192.25.14.2", "email" => "tata@test.com", "nickname" => "Joe"],
+                    ["creation_date" => "q201-01-01", "first_name" => 4, "last_name" => "Paul", "id" => "24", "ip" => "toto", "email" => "tata@test", "nickname" => ""],
+                    ["creation_date" => "2012-05-04", "first_name" => "yes", "last_name" => "true", "id" => "paul", "ip" => "192.25.14.2", "email" => "tata@jetable.org", "nickname" => ""]
                   ];
         
 $control_tests = [
@@ -31,6 +31,7 @@ $control_tests = [
                 "id" => ["required", "is_int", "error_message" => "the id doesn't exist or not an integer"],
                 "ip" => ["required", "is_ipadress", "error_message" => "the ip address doesn't exist or not a valid ip address"],
                 "email" => ["required", "is_email", "disposable_email"]
+                "nickname" => ["is_string"]
               ];
                   
 $datas_control = new datas_checker();
@@ -92,6 +93,8 @@ Here are the different methods currently implemented to verify your data set:
    - is_date
    - greater_than (works with dates, numerics or int values)
    - lower_than (works with dates, numerics or int values)
+   - error_message (set an error on failure)
+   - alias (change the default data_name to compose a more explicit with the error array)
    - is_string
    - max_lenght
    - min_lenght
