@@ -2,12 +2,12 @@
 
 /**
  * Class datas_checker
- * @author FEREGOTTO Romain
- * @link https://github.com/gravity-zero/
+ * @link https://github.com/gravity-zero/datas_checker
  */
-class datas_checker
+class Datas_checker
 {
     private $errors = [];
+    public $alias;
     const DISPOSABLE = ["@yopmail", "@ymail", "@jetable", "@trashmail", "@jvlicenses", "@temp-mail", "@emailnax", "@datakop"];
 
     /**
@@ -21,11 +21,25 @@ class datas_checker
         {
             foreach ($datas as $data)
             {
-                foreach($check_rules as $key_control=>$controls)
+                $data = (array)$data;
+
+                foreach($check_rules as $control_name=>$controls)
                 {
-                    if(array_key_exists($key_control, $data))
+                    $this->alias = array_key_exists("alias", $controls) ? $controls["alias"] : "";
+
+                    if(array_key_exists($control_name, $data))
                     {
-                        $this->search_method($controls, $data[$key_control], $key_control);
+                        if(!in_array("required", $controls))
+                        {
+                            if(!empty($data[$control_name]))
+                            {
+                                $this->search_method($controls, $data[$control_name], $control_name);
+                            }
+                        }else{
+                            $this->search_method($controls, $data[$control_name], $control_name);
+                        }
+                    }elseif(in_array("required", $controls)){
+                        $this->set_error("The field ". $control_name . " is required but not found");
                     }
                 }
             }
@@ -84,7 +98,7 @@ class datas_checker
 
     private function street_address($data)
     {
-        if(!@preg_match("/^[a-zA-Z0-9 'éèùëêûîìàòÀÈÉÌÒÙâôöüïäÏÖÜÄËÂÊÎÔÛ-]+$/", $data)) return false;
+        if (!@preg_match("/^[a-zA-Z0-9 'éèùëêûîìàòÀÈÉÌÒÙâôöüïäÏÖÜÄËÂÊÎÔÛ-]+$/", $data)) return false;
         return true;
     }
 
@@ -130,13 +144,13 @@ class datas_checker
         return true;
     }
 
-    private function lenght_greater($data, $lenght_greater)
+    private function max_lenght($data, $lenght_greater)
     {
         if(strlen($data) < $lenght_greater) return false;
         return true;
     }
 
-    private function lenght_lower($data, $lenght_lower)
+    private function min_lenght($data, $lenght_lower)
     {
         if(strlen($data) > $lenght_lower) return false;
         return true;
@@ -154,9 +168,15 @@ class datas_checker
         return true;
     }
 
+    private function not_alphanumeric($data)
+    {
+        if (!preg_match("/^[a-zA-Z éèùëêûîìàòÀÈÉÌÒÙâôöüïäÏÖÜÄËÂÊÎÔÛ'-]+$/", $data)) return false;
+        return true;
+    }
+
     private function set_error($message, $value=null, $data_name=null, $test_name=null)
     {
-        $this->errors[] = ["error_message" => $message, "data_eval" => $value, "data_name" => $data_name, "test_name" => $test_name];
+        $this->errors[] = ["error_message" => $message, "data_eval" => $value, "data_name" => !empty($this->alias) ? $this->alias : $data_name, "test_name" => $test_name];
     }
 
     public function get_errors()

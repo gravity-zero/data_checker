@@ -34,7 +34,7 @@ $control_tests = [
               ];
                   
 $datas_control = new datas_checker();
-$isCorrectDatas = $datas_control->check($datas, $control_tests);
+$isCorrectDatas = $datas_control->check($datas_to_check, $control_tests);
 ```
 
 Here we've got return errors for the first and second row of $datas_to_check.
@@ -93,8 +93,8 @@ Here are the different methods currently implemented to verify your data set:
    - greater_than (works with dates, numerics or int values)
    - lower_than (works with dates, numerics or int values)
    - is_string
-   - lenght_greater
-   - lenght_lower
+   - max_lenght
+   - min_lenght
    - is_ipadress (IPV4 & IPV6)
    - is_email
    - disposable_email
