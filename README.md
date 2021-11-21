@@ -20,7 +20,7 @@ PHP version >= 5.4
 ```php 
 $datas_to_check = [
                     ["creation_date" => "2016-01-01", "first_name" => "John", "last_name" => "Paul", "id" => 24, "ip" => "192.25.14.2", "email" => "tata@test.com", "nickname" => "Joe"],
-                    ["creation_date" => "q201-01-01", "first_name" => 4, "last_name" => "Paul", "id" => "24", "ip" => "toto", "email" => "tata@test", "nickname" => ""],
+                    ["creation_date" => "q201-01-01", "first_name" => 4, "last_name" => "Paul", "id" => "24", "ip" => "toto", "email" => "tata@test", "field_with_incomprehensible_name" => 45],
                     ["creation_date" => "2012-05-04", "first_name" => "yes", "last_name" => "true", "id" => "paul", "ip" => "192.25.14.2", "email" => "tata@jetable.org", "nickname" => ""]
                   ];
         
@@ -30,8 +30,9 @@ $control_tests = [
                 "last_name" => ["required", "is_string", "lenght_greater" => 1, "error_message" => "the name isn't a word or be inferior to 1 characters"],
                 "id" => ["required", "is_int", "error_message" => "the id doesn't exist or not an integer"],
                 "ip" => ["required", "is_ipadress", "error_message" => "the ip address doesn't exist or not a valid ip address"],
-                "email" => ["required", "is_email", "disposable_email"]
-                "nickname" => ["is_string"]
+                "email" => ["required", "is_email", "disposable_email"],
+                "nickname" => ["is_string"],
+                "field_with_incomprehensible_name" => ["required", "string", "alias" => "the_field"]
               ];
                   
 $datas_control = new datas_checker();
@@ -60,24 +61,30 @@ Has you see you be able to put your own error message. However, the generic mess
                     "test_name" => "superior_to"
                 ),
             2 => array(
-                    "error_message" => "the firstname isn't a word or be inferior to 2 characters"
-                    "data_eval" => 4
-                    "data_name" => "first_name"
+                    "error_message" => "the firstname isn't a word or be inferior to 2 characters",
+                    "data_eval" => 4,
+                    "data_name" => "first_name",
                     "test_name" => "is_string"
                 ),
             [...],
             5 => array(
-                     "error_message" => "Doesn't match the control test IS_EMAIL as excepted"
-                     "data_eval" => "tata@test"
-                     "data_name" => "email"
+                     "error_message" => "Doesn't match the control test IS_EMAIL as excepted",
+                     "data_eval" => "tata@test",
+                     "data_name" => "email",
                      "test_name" => "is_email"
                 ),
             6 => array(
-                     "error_message" => "Doesn't match the control test DISPOSABLE_EMAIL as excepted"
-                     "data_eval" => "tata@jetable.org"
-                     "data_name" => "email"
+                     "error_message" => "Doesn't match the control test DISPOSABLE_EMAIL as excepted",
+                     "data_eval" => "tata@jetable.org",
+                     "data_name" => "email",
                      "test_name" => "disposable_email"
-                )
+                ),
+            7 => array(
+                    "error_message" => "Doesn't match the control test IS_EMAIL as excepted",
+                    "data_eva" => 45,
+                    "data_name" => "the_field", // Here the original data_name is replaced by the alias
+                    "test_name" => "is_string"
+                    )
     )   
 ```
 
