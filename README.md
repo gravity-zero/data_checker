@@ -80,7 +80,7 @@ Has you see you be able to put your own error message. However, the generic mess
                      "test_name" => "disposable_email"
                 ),
             7 => array(
-                    "error_message" => "Doesn't match the control test IS_EMAIL as excepted",
+                    "error_message" => "Doesn't match the control test IS_STRING as excepted",
                     "data_eva" => 45,
                     "data_name" => "the_field", // Here the original data_name is replaced by the alias
                     "test_name" => "is_string"
