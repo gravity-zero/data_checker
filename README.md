@@ -4,6 +4,34 @@ As its name suggests, data checker allows you to quickly check if your array ele
 
 <b>PHP version >= 5.4</b>
 
+### Available methods:
+
+Here are the different methods currently implemented to verify your data set:
+
+  ```
+   - error_message //set an error on failure
+   - alias //change the default data_name to compose a more explicit message with the error array
+   - required //check null & empty values
+   - string
+   - int
+   - numeric
+   - date
+   - greater_than //works with dates, numerics and int values
+   - lower_than //works with dates, numerics and int values
+   - contains_special_character //define if your string contains special characters
+   - contains_lower //define if your string contains lower case characters
+   - contains_upper //define if your string contains upper case characters
+   - contains_number //define if your string contains number characters
+   - max_lenght
+   - min_lenght
+   - ip_address //IPV4 & IPV6
+   - email
+   - disposable_email
+   - street_address
+   - alphanumeric //doesn't match special chars
+   - not_alphanumeric //doesn't match special chars
+  ```
+
 ### Exemple : 
 
 ```php 
@@ -17,6 +45,7 @@ $datas_to_check =
             "ip" => "random string",
             "email" => "tata@test",
             "test" => "random string",
+            "captcha" => "4D#I3",
             "password" => "azerty123"
         ];
         
@@ -58,6 +87,13 @@ $control_tests =
                 "email",
                 "disposable_email"
             ],
+            "captcha" => [
+                "required",
+                "string",
+                "alphanumeric",
+                "min_lenght" => 5,
+                "max_lenght" => 5
+            ],
             "test" => [
                 "required",
                 "string",
@@ -82,7 +118,7 @@ $isCorrectDatas = $datas_control->check($datas_to_check, $control_tests);
 ![](https://github.com/gravity-zero/datas_checker/blob/master/documentation/imgs/result_table.png)
 ### Result php:
 ```php 
-var_dump($isCorrectDatas); //with prettier output
+var_dump($isCorrectDatas);
     
 [ 
       0 => 
@@ -108,40 +144,40 @@ var_dump($isCorrectDatas); //with prettier output
           ],
       3 => 
           [
-            'error_message' => 'the firstname isn\'t a word or be inferior to 4 characters',
-            'data_eval' => 4,
-            'data_name' => 'first_name',
-            'test_name' => 'not_alphanumeric',
-          ],
-      4 => 
-          [
             'error_message' => 'the ip adress doesn\'t exist or not valid ip address',
             'data_eval' => 'random string',
             'data_name' => 'ip',
             'test_name' => 'ip_address',
           ],
-      5 => 
-          [
-            'error_message' => 'the ip adress doesn\'t exist or not valid ip address',
-            'data_eval' => 'random string',
-            'data_name' => 'ip',
-            'test_name' => 'alphanumeric',
-          ],
-      6 => 
+      4 => 
           [
             'error_message' => 'Doesn\'t match the control test EMAIL as excepted',
             'data_eval' => 'tata@test',
             'data_name' => 'email',
             'test_name' => 'email',
           ],
-      7 => 
+      5 => 
+          [
+            'error_message' => 'Doesn\'t match the control test ALPHANUMERIC as excepted',
+            'data_eval' => '4D#I3',
+            'data_name' => 'captcha',
+            'test_name' => 'alphanumeric'
+          ],
+      7 =>
+          [
+            'error_message' => 'Doesn\'t match the control test NOT_ALPHANUMERIC as excepted',
+            'data_eval' => 'azerty123',
+            'data_name' => 'password',
+            'test_name' => 'not_alphanumeric'
+          ],
+      6 => 
           [
             'error_message' => 'Doesn\'t match the control test CONTAINS_UPPER as excepted',
             'data_eval' => 'azerty123',
             'data_name' => 'password',
             'test_name' => 'contains_upper',
           ],
-      8 => 
+      7 => 
           [
             'error_message' => 'Doesn\'t match the control test CONTAINS_SPECIAL_CHARACTER as excepted',
             'data_eval' => 'azerty123',
@@ -152,33 +188,5 @@ var_dump($isCorrectDatas); //with prettier output
 ```
 
 As you can see, you have everything you need to display a suitable message.
-
-### Available methods: 
-
-Here are the different methods currently implemented to verify your data set:
-
-  ```
-   - error_message //set an error on failure
-   - alias //change the default data_name to compose a more explicit message with the error array
-   - required //check null & empty values
-   - string
-   - int
-   - numeric
-   - date
-   - greater_than //works with dates, numerics and int values
-   - lower_than //works with dates, numerics and int values
-   - contains_special_character //define if your string contains special characters
-   - contains_lower //define if your string contains lower case characters
-   - contains_upper //define if your string contains upper case characters
-   - contains_number //define if your string contains number characters
-   - max_lenght
-   - min_lenght
-   - ip_address //IPV4 & IPV6
-   - email
-   - disposable_email
-   - street_address
-   - alphanumeric //works with special chars
-   - not_alphanumeric //works with special chars
-  ```
 
 Hope this little tool will save you some time to check the validity of your datasets :)

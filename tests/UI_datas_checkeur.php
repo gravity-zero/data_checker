@@ -8,7 +8,8 @@ $datas1 = [
             "id" => 24,
             "ip" => "192.25.14.8",
             "email" => "tata@test.com",
-            "test" => "random string"
+            "test" => "random string",
+            "captcha" => "25EC5"
         ];
 
 $datas2 = [
@@ -19,6 +20,7 @@ $datas2 = [
             "ip" => "random string",
             "email" => "tata@test",
             "test" => "random string",
+            "captcha" => "4D#I3",
             "password" => "azerty123"
         ];
 
@@ -30,6 +32,7 @@ $datas3 = [
             "ip" => "192.25.14.2",
             "email" => "tata@jetable.org",
             "test" => "",
+            "captcha" => "4DEI3",
             "password" => "12345"
         ];
 
@@ -41,6 +44,7 @@ $datas4->id = 4;
 $datas4->ip = "::1";
 $datas4->email = "tootoo@test.com";
 $datas4->password = "ThisIsP4\$\$w0rd";
+$datas4->captcha = "4DEI3";
 
 
 /* French Version */
@@ -110,13 +114,13 @@ $check_test = [
         "required",
         "string",
         "min_lenght" => 4,
-        "not_alphanumeric",
         "error_message" => "the firstname isn't a word or be inferior to 4 characters"
     ],
     "last_name" => [
         "required",
         "string",
         "min_lenght" => 1,
+        "not_alphanumeric",
         "error_message" => "the name isn't a word or be inferior to 1 characters"
     ],
     "id" => [
@@ -126,14 +130,21 @@ $check_test = [
     ],
     "ip" => [
         "required",
+        "string",
         "ip_address",
-        "alphanumeric",
         "error_message" => "the ip adress doesn't exist or not valid ip address"
     ],
     "email" => [
         "required",
         "email",
         "disposable_email"
+    ],
+    "captcha" => [
+        "required",
+        "string",
+        "alphanumeric",
+        "min_lenght" => 5,
+        "max_lenght" => 5
     ],
     "test" => [
         "required",
@@ -142,8 +153,8 @@ $check_test = [
     ],
     "password" => [
         "required",
-        "alphanumeric",
         "min_lenght" => 8,
+        "not_alphanumeric",
         "contains_number",
         "contains_lower",
         "contains_upper",
@@ -227,7 +238,6 @@ $isCorrectDatas = $checker->check($datas1, $check_test);
 unset($checker);
 if(is_array($isCorrectDatas))
 {
-
     printTable("- 1", $isCorrectDatas);
 }
 
@@ -236,7 +246,6 @@ $isCorrectDatas = $checker->check($datas2, $check_test);
 unset($checker);
 if(is_array($isCorrectDatas))
 {
-    var_export($isCorrectDatas);
     printTable("- 2", $isCorrectDatas);
 }
 

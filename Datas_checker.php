@@ -142,13 +142,13 @@ class Datas_checker
 
     private function min_lenght($data, $lenght_greater)
     {
-        if(strlen($data) <= $lenght_greater) return false;
+        if(strlen($data) < $lenght_greater) return false;
         return true;
     }
 
     private function max_lenght($data, $lenght_lower)
     {
-        if(strlen($data) >= $lenght_lower) return false;
+        if(strlen($data) > $lenght_lower) return false;
         return true;
     }
 
@@ -188,17 +188,13 @@ class Datas_checker
 
     private function alphanumeric($data)
     {
-        // ctype_alnum() doesn't match special chars
-        if($this->not_alphanumeric($data)) return false;
+        if (!ctype_alnum($data)) return false;
         return true;
     }
 
     private function not_alphanumeric($data)
     {
-        // ctype_alnum() doesn't match special chars
-        //!preg_match("/^[a-zA-Z éèùëêûîìàòÀÈÉÌÒÙâôöüïäÏÖÜÄËÂÊÎÔÛ'-]+$/", $data) -> doesn't match special chars
-        if (!($this->contains_lower($data) || $this->contains_upper($data))) return false;
-        if ($this->contains_number($data)) return false;
+        if (!preg_match("/^[a-zA-Z éèùëêûîìàòÀÈÉÌÒÙâôöüïäÏÖÜÄËÂÊÎÔÛ'-]+$/", $data)) return false;
         return true;
     }
 
