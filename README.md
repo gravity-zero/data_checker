@@ -4,10 +4,10 @@ As its name suggests, data checker allows you to quickly check if your array ele
 
 <b>PHP version >= 5.4</b>
 
-###Exemple : 
+### Exemple : 
 
 ```php 
-// Can be $_POST
+// Can be $_POST or an object
 $datas_to_check =
         [
             "creation_date" => "2015-31-01",
@@ -78,9 +78,9 @@ $datas_control = new datas_checker();
 $isCorrectDatas = $datas_control->check($datas_to_check, $control_tests);
 ```
 
-###Result table:
+### Result table:
 ![](https://github.com/gravity-zero/datas_checker/blob/master/documentation/imgs/result_table.png)
-###Result php:
+### Result php:
 ```php 
 var_dump($isCorrectDatas); //with prettier output
     
