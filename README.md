@@ -1,117 +1,184 @@
 # datas_checker
 
-As its name suggests, data checker allows you to quickly check if your element array is valid according to your criteria:
+As its name suggests, data checker allows you to quickly check if your array elements are valid according to your criteria:
 
-- String
-- String: minimum and maximum number of characters
-- Date
-- Date: greater and less than a date
-- Integer
-- Float (Number)
-- Email address
-- Disposable email
-- street name
-- IP address (IPV4 and IPV6)
-
-PHP version >= 5.4
+<b>PHP version >= 5.4</b>
 
 ###Exemple : 
 
 ```php 
-$datas_to_check = [
-                    ["creation_date" => "2016-01-01", "first_name" => "John", "last_name" => "Paul", "id" => 24, "ip" => "192.25.14.2", "email" => "tata@test.com", "nickname" => "Joe"],
-                    ["creation_date" => "q201-01-01", "first_name" => 4, "last_name" => "Paul", "id" => "24", "ip" => "toto", "email" => "tata@test", "field_with_incomprehensible_name" => 45],
-                    ["creation_date" => "2012-05-04", "first_name" => "yes", "last_name" => "true", "id" => "paul", "ip" => "192.25.14.2", "email" => "tata@jetable.org", "nickname" => ""]
-                  ];
+// Can be $_POST
+$datas_to_check =
+        [
+            "creation_date" => "2015-31-01",
+            "first_name" => 4,
+            "last_name" => "Paul",
+            "id" => "24",
+            "ip" => "random string",
+            "email" => "tata@test",
+            "test" => "random string",
+            "password" => "azerty123"
+        ];
         
-$control_tests = [
-                "creation_date" => ["required", "is_date", "greater_than" => "2016-01-01", "error_message" => "the creation date isn't date or be superior to '2016-01-01'"],
-                "first_name" => ["required", "is_string", "lenght_greater" => 2, "error_message" => "the firstname isn't a word or be inferior to 2 characters"],
-                "last_name" => ["required", "is_string", "lenght_greater" => 1, "error_message" => "the name isn't a word or be inferior to 1 characters"],
-                "id" => ["required", "is_int", "error_message" => "the id doesn't exist or not an integer"],
-                "ip" => ["required", "is_ipadress", "error_message" => "the ip address doesn't exist or not a valid ip address"],
-                "email" => ["required", "is_email", "disposable_email"],
-                "nickname" => ["is_string"],
-                "field_with_incomprehensible_name" => ["required", "string", "alias" => "the_field"]
-              ];
+//My fields values need to be :        
+$control_tests =
+         [
+            "creation_date" => [
+                "required",
+                "date",
+                "greater_than" => "2016-01-01",
+                "error_message" => "the creation date isn't date or be superior to '2016-01-01'"
+            ],
+            "first_name" => [
+                "required",
+                "string",
+                "min_lenght" => 4,
+                "not_alphanumeric",
+                "error_message" => "the firstname isn't a word or be inferior to 4 characters"
+            ],
+            "last_name" => [
+                "required",
+                "string",
+                "min_lenght" => 1,
+                "error_message" => "the name isn't a word or be inferior to 1 characters"
+            ],
+            "id" => [
+                "required",
+                "int",
+                "error_message" => "the id doesn't exist or not an integer"
+            ],
+            "ip" => [
+                "required",
+                "ip_address",
+                "alphanumeric",
+                "error_message" => "the ip adress doesn't exist or not valid ip address"
+            ],
+            "email" => [
+                "required",
+                "email",
+                "disposable_email"
+            ],
+            "test" => [
+                "required",
+                "string",
+                "alias" => "Alias_test"
+            ],
+            "password" => [
+                "required",
+                "alphanumeric",
+                "min_lenght" => 8,
+                "contains_int",
+                "contains_lower",
+                "contains_upper",
+                "contains_special_character"
+            ]
+        ];
                   
 $datas_control = new datas_checker();
 $isCorrectDatas = $datas_control->check($datas_to_check, $control_tests);
 ```
 
-Here we've got return errors for the first and second row of $datas_to_check.
-Has you see you be able to put your own error message. However, the generic message should be sufficient and the error table contains in addition to the message the evaluated data, the data_name, and the failed test name.
-
-###Result :
+###Result table:
+![](https://github.com/gravity-zero/datas_checker/blob/master/documentation/imgs/result_table.png)
+###Result php:
 ```php 
-    var_dump($isCorrectDatas);
+var_dump($isCorrectDatas); //with prettier output
     
-    array(
-        0 => 
-            0 => array(
-                    "error_message" => "the creation date isn't date or be superior to '2016-01-01'",
-                    "data_eval" => "q201-01-01",
-                    "data_name" => "creation_date",
-                    "test_name" => "is_date"
-                ),
-            1 => array(
-                    "error_message" => "the creation date isn't date or be superior to '2016-01-01'",
-                    "data_eval" => "2012-05-04",
-                    "data_name" => "creation_date",
-                    "test_name" => "superior_to"
-                ),
-            2 => array(
-                    "error_message" => "the firstname isn't a word or be inferior to 2 characters",
-                    "data_eval" => 4,
-                    "data_name" => "first_name",
-                    "test_name" => "is_string"
-                ),
-            [...],
-            5 => array(
-                     "error_message" => "Doesn't match the control test IS_EMAIL as excepted",
-                     "data_eval" => "tata@test",
-                     "data_name" => "email",
-                     "test_name" => "is_email"
-                ),
-            6 => array(
-                     "error_message" => "Doesn't match the control test DISPOSABLE_EMAIL as excepted",
-                     "data_eval" => "tata@jetable.org",
-                     "data_name" => "email",
-                     "test_name" => "disposable_email"
-                ),
-            7 => array(
-                    "error_message" => "Doesn't match the control test IS_STRING as excepted",
-                    "data_eva" => 45,
-                    "data_name" => "the_field", // Here the original data_name is replaced by the alias
-                    "test_name" => "is_string"
-                    )
-    )   
+[ 
+      0 => 
+          [
+            'error_message' => 'the creation date isn\'t date or be superior to \'2016-01-01\'',
+            'data_eval' => '2015-31-01',
+            'data_name' => 'creation_date',
+            'test_name' => 'greater_than',
+          ],
+      1 => 
+          [
+            'error_message' => 'the firstname isn\'t a word or be inferior to 4 characters',
+            'data_eval' => 4,
+            'data_name' => 'first_name',
+            'test_name' => 'string',
+          ],
+      2 => 
+          [
+            'error_message' => 'the firstname isn\'t a word or be inferior to 4 characters',
+            'data_eval' => 4,
+            'data_name' => 'first_name',
+            'test_name' => 'min_lenght',
+          ],
+      3 => 
+          [
+            'error_message' => 'the firstname isn\'t a word or be inferior to 4 characters',
+            'data_eval' => 4,
+            'data_name' => 'first_name',
+            'test_name' => 'not_alphanumeric',
+          ],
+      4 => 
+          [
+            'error_message' => 'the ip adress doesn\'t exist or not valid ip address',
+            'data_eval' => 'random string',
+            'data_name' => 'ip',
+            'test_name' => 'ip_address',
+          ],
+      5 => 
+          [
+            'error_message' => 'the ip adress doesn\'t exist or not valid ip address',
+            'data_eval' => 'random string',
+            'data_name' => 'ip',
+            'test_name' => 'alphanumeric',
+          ],
+      6 => 
+          [
+            'error_message' => 'Doesn\'t match the control test EMAIL as excepted',
+            'data_eval' => 'tata@test',
+            'data_name' => 'email',
+            'test_name' => 'email',
+          ],
+      7 => 
+          [
+            'error_message' => 'Doesn\'t match the control test CONTAINS_UPPER as excepted',
+            'data_eval' => 'azerty123',
+            'data_name' => 'password',
+            'test_name' => 'contains_upper',
+          ],
+      8 => 
+          [
+            'error_message' => 'Doesn\'t match the control test CONTAINS_SPECIAL_CHARACTER as excepted',
+            'data_eval' => 'azerty123',
+            'data_name' => 'password',
+            'test_name' => 'contains_special_character',
+          ]
+]   
 ```
 
-I skipped some results to show you the different error messages received, those passed in the check_test array and the standard message. As you can see, you have everything you need to display a suitable message.
+As you can see, you have everything you need to display a suitable message.
 
-
-### The array methods 
+### Available methods: 
 
 Here are the different methods currently implemented to verify your data set:
 
-  ````
-   - required (check null & empty values)
-   - is_date
-   - greater_than (works with dates, numerics or int values)
-   - lower_than (works with dates, numerics or int values)
-   - error_message (set an error on failure)
-   - alias (change the default data_name to compose a more explicit with the error array)
-   - is_string
+  ```
+   - error_message //set an error on failure
+   - alias //change the default data_name to compose a more explicit message with the error array
+   - required //check null & empty values
+   - string
+   - int
+   - numeric
+   - date
+   - greater_than //works with dates, numerics and int values
+   - lower_than //works with dates, numerics and int values
+   - contains_special_character //define if your string contains special characters
+   - contains_lower //define if your string contains lower case characters
+   - contains_upper //define if your string contains upper case characters
+   - contains_number //define if your string contains number characters
    - max_lenght
    - min_lenght
-   - is_ipadress (IPV4 & IPV6)
-   - is_email
+   - ip_address //IPV4 & IPV6
+   - email
    - disposable_email
    - street_address
-   - is_int
-   - is_alphanumeric
-   - is_numeric
-  ````
+   - alphanumeric //works with special chars
+   - not_alphanumeric //works with special chars
+  ```
 
 Hope this little tool will save you some time to check the validity of your datasets :)

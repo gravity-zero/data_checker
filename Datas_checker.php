@@ -17,30 +17,26 @@ class Datas_checker
      */
     public function check($datas, $check_rules)
     {
+        $datas = (array)$datas;
         if($this->array_control($datas, $check_rules))
         {
-            foreach ($datas as $data)
+            foreach($check_rules as $control_name=>$controls)
             {
-                $data = (array)$data;
+                $this->alias = array_key_exists("alias", $controls) ? $controls["alias"] : "";
 
-                foreach($check_rules as $control_name=>$controls)
+                if(array_key_exists($control_name, $datas))
                 {
-                    $this->alias = array_key_exists("alias", $controls) ? $controls["alias"] : "";
-
-                    if(array_key_exists($control_name, $data))
+                    if(!in_array("required", $controls))
                     {
-                        if(!in_array("required", $controls))
+                        if(!empty($datas[$control_name]))
                         {
-                            if(!empty($data[$control_name]))
-                            {
-                                $this->search_method($controls, $data[$control_name], $control_name);
-                            }
-                        }else{
-                            $this->search_method($controls, $data[$control_name], $control_name);
+                            $this->search_method($controls, $datas[$control_name], $control_name);
                         }
-                    }elseif(in_array("required", $controls)){
-                        $this->set_error("The field ". $control_name . " is required but not found");
+                    }else{
+                        $this->search_method($controls, $datas[$control_name], $control_name);
                     }
+                }elseif(in_array("required", $controls)){
+                    $this->set_error("The field ". $control_name . " is required but was not found");
                 }
             }
         }
@@ -102,31 +98,31 @@ class Datas_checker
         return true;
     }
 
-    private function is_date($data)
+    private function date($data)
     {
         if(!DateTime::createFromFormat('Y-m-d', $data)) return false;
         return true;
     }
 
-    private function is_numeric($data)
+    private function numeric($data)
     {
         if(!is_numeric($data)) return false;
         return true;
     }
 
-    private function is_int($data)
+    private function int($data)
     {
         if(!is_int((int)$data)) return false;
         return true;
     }
 
-    private function is_email($data)
+    private function email($data)
     {
         if(!filter_var($data, FILTER_VALIDATE_EMAIL)) return false;
         return true;
     }
 
-    private function is_ipadress($data)
+    private function ip_address($data)
     {
         if(!filter_var($data, FILTER_VALIDATE_IP, [FILTER_FLAG_IPV4, FILTER_FLAG_IPV6])) return false;
         return true;
@@ -144,39 +140,77 @@ class Datas_checker
         return true;
     }
 
-    private function max_lenght($data, $lenght_greater)
+    private function min_lenght($data, $lenght_greater)
     {
-        if(strlen($data) < $lenght_greater) return false;
+        if(strlen($data) <= $lenght_greater) return false;
         return true;
     }
 
-    private function min_lenght($data, $lenght_lower)
+    private function max_lenght($data, $lenght_lower)
     {
-        if(strlen($data) > $lenght_lower) return false;
+        if(strlen($data) >= $lenght_lower) return false;
         return true;
     }
 
-    private function is_string($data)
+    private function string($data)
     {
         if(!is_string($data)) return false;
         return true;
     }
 
-    private function is_alphanumeric($data)
+    private function contains_upper($data)
     {
-        if(!ctype_alnum($data)) return false;
+        $upper = false;
+        foreach(str_split($data) as $char)
+        {
+            if(ctype_upper($char) && !is_numeric($char)) return true;
+        }
+        return false;
+    }
+
+    private function contains_lower($data)
+    {
+        foreach(str_split($data) as $char)
+        {
+            if(ctype_lower($char) && !is_numeric($char)) return true;
+        }
+        return false;
+    }
+
+    private function contains_number($data)
+    {
+        foreach(str_split($data) as $char)
+        {
+            if(is_numeric($char)) return true;
+        }
+        return false;
+    }
+
+    private function alphanumeric($data)
+    {
+        // ctype_alnum() doesn't match special chars
+        if($this->not_alphanumeric($data)) return false;
         return true;
     }
 
     private function not_alphanumeric($data)
     {
-        if (!preg_match("/^[a-zA-Z éèùëêûîìàòÀÈÉÌÒÙâôöüïäÏÖÜÄËÂÊÎÔÛ'-]+$/", $data)) return false;
+        // ctype_alnum() doesn't match special chars
+        //!preg_match("/^[a-zA-Z éèùëêûîìàòÀÈÉÌÒÙâôöüïäÏÖÜÄËÂÊÎÔÛ'-]+$/", $data) -> doesn't match special chars
+        if (!($this->contains_lower($data) || $this->contains_upper($data))) return false;
+        if ($this->contains_number($data)) return false;
+        return true;
+    }
+
+    private function contains_special_character($data)
+    {
+        if(!preg_match('/[\'^£$%&*()}{@#~?><,|=_+¬-]/', $data)) return false;
         return true;
     }
 
     private function set_error($message, $value=null, $data_name=null, $test_name=null)
     {
-        $this->errors[] = ["error_message" => $message, "data_eval" => $value, "data_name" => !empty($this->alias) ? $this->alias : $data_name, "test_name" => $test_name];
+        $this->errors[] = ["error_message" => $message, "data_eval" => !empty($value) ? $value : "EMPTY", "data_name" => !empty($this->alias) ? $this->alias : $data_name, "test_name" => $test_name];
     }
 
     public function get_errors()
