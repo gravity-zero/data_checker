@@ -48,8 +48,7 @@ $datas_to_check =
             "captcha" => "4D#I3",
             "password" => "azerty123"
         ];
-        
-//My fields values need to be :        
+               
 $control_tests =
          [
             "creation_date" => [
