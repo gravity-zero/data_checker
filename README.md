@@ -35,8 +35,8 @@ Here are the different methods currently implemented to verify your data set:
 ⚠️ <b>Below are the only methods that take an argument</b> ⚠️
 - greater_than => type string or number
 - lower_than => type string or number
-- max_length => type string
-- min_length => type string
+- max_length => type number
+- min_length => type number
 
 ####Example
 ```php 
