@@ -22,8 +22,8 @@ Here are the different methods currently implemented to verify your data set:
    - contains_lower //define if your string contains lower case characters
    - contains_upper //define if your string contains upper case characters
    - contains_number //define if your string contains number characters
-   - max_lenght
-   - min_lenght
+   - max_length
+   - min_length
    - ip_address //IPV4 & IPV6
    - email
    - disposable_email
@@ -32,7 +32,68 @@ Here are the different methods currently implemented to verify your data set:
    - not_alphanumeric //doesn't match special chars
   ```
 
-### Exemple : 
+⚠️ <b>Below are the only methods that take an argument</b> ⚠️
+- greater_than => type string or number
+- lower_than => type string or number
+- max_length => type string
+- min_length => type string
+
+####Example
+```php 
+
+    // NUMBER TEST
+$control_tests = [
+    "myNumberField" => [
+        "required",
+        "greater_than" => 3
+    ]
+];
+    
+    // DATE TEST
+$control_tests = [
+    "myDateField" => [
+        "required",
+        "greater_than" => "2016-01-01"
+    ]
+];    
+    // STRING TEST
+$control_tests = [
+    "myStringField" => [
+        "required",
+        "max_length" => 8
+    ]
+];
+```
+
+###Steps to build verification array & launch tests
+<b>First step</b>, you need to create an array with the fields you want to verify:
+```php
+$control_tests = [
+    "myFirstField",
+    "mySecondField"
+];
+```
+
+<b>Second step</b>, for each field you create a second array contains verification methods you want to use:
+```php
+$control_tests = [
+    "myFirstField" => [
+        "required",
+        "string"
+    ],
+    "mySecondField" => [
+        "required",
+        "int"
+    ]
+];
+```
+<b>Third step</b>, create instance of <b>datas_checker</b> and use the verify method with your array or object data to verify, and your verification array.
+```php
+$checker = new datas_checker();
+$isCorrectDatas = $checker->verify($datas_to_check, $control_tests);
+```
+
+### Full Example : 
 
 ```php 
 // Can be $_POST or an object
@@ -60,14 +121,14 @@ $control_tests =
             "first_name" => [
                 "required",
                 "string",
-                "min_lenght" => 4,
+                "min_length" => 4,
                 "not_alphanumeric",
                 "error_message" => "the firstname isn't a word or be inferior to 4 characters"
             ],
             "last_name" => [
                 "required",
                 "string",
-                "min_lenght" => 1,
+                "min_length" => 1,
                 "error_message" => "the name isn't a word or be inferior to 1 characters"
             ],
             "id" => [
@@ -90,8 +151,8 @@ $control_tests =
                 "required",
                 "string",
                 "alphanumeric",
-                "min_lenght" => 5,
-                "max_lenght" => 5
+                "min_length" => 5,
+                "max_length" => 5
             ],
             "test" => [
                 "required",
@@ -101,7 +162,7 @@ $control_tests =
             "password" => [
                 "required",
                 "alphanumeric",
-                "min_lenght" => 8,
+                "min_length" => 8,
                 "contains_int",
                 "contains_lower",
                 "contains_upper",
@@ -110,7 +171,7 @@ $control_tests =
         ];
                   
 $datas_control = new datas_checker();
-$isCorrectDatas = $datas_control->check($datas_to_check, $control_tests);
+$isCorrectDatas = $datas_control->verify($datas_to_check, $control_tests);
 ```
 
 ### Result table:
@@ -139,7 +200,7 @@ var_dump($isCorrectDatas);
             'error_message' => 'the firstname isn\'t a word or be inferior to 4 characters',
             'data_eval' => 4,
             'data_name' => 'first_name',
-            'test_name' => 'min_lenght',
+            'test_name' => 'min_length',
           ],
       3 => 
           [

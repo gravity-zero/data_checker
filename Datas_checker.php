@@ -11,13 +11,14 @@ class Datas_checker
     const DISPOSABLE = ["@yopmail", "@ymail", "@jetable", "@trashmail", "@jvlicenses", "@temp-mail", "@emailnax", "@datakop"];
 
     /**
-     * @param $datas
-     * @param $check_rules
-     * @return array|bool Errors or true
+     * @param array $datas
+     * @param array $check_rules
+     * @return bool|array Errors or true
      */
-    public function check($datas, $check_rules)
+    public function verify(array|object $datas,array $check_rules): bool|array
     {
-        $datas = (array)$datas;
+        $datas = (array)$datas; // cast object as array
+
         if($this->array_control($datas, $check_rules))
         {
             foreach($check_rules as $control_name=>$controls)
@@ -140,15 +141,15 @@ class Datas_checker
         return true;
     }
 
-    private function min_lenght($data, $lenght_greater)
+    private function min_length($data, $length_greater)
     {
-        if(strlen($data) < $lenght_greater) return false;
+        if(strlen($data) < $length_greater) return false;
         return true;
     }
 
-    private function max_lenght($data, $lenght_lower)
+    private function max_length($data, $length_lower)
     {
-        if(strlen($data) > $lenght_lower) return false;
+        if(strlen($data) > $length_lower) return false;
         return true;
     }
 

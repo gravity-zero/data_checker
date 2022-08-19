@@ -59,14 +59,14 @@ $datas4->captcha = "4DEI3";
         "first_name" => [
                             "required",
                             "string",
-                            "min_lenght" => 4,
+                            "min_length" => 4,
                             "not_alphanumeric",
                             "error_message" => "le prénom n'est pas un mot ou est inférieur à 4 lettres"
                         ],
         "last_name" => [
                             "required",
                             "string",
-                            "min_lenght" => 1,
+                            "min_length" => 1,
                             "error_message" => "le nom n'est pas un mot ou est inférieur à 1 lettres"
                         ],
         "id" => [
@@ -93,7 +93,7 @@ $datas4->captcha = "4DEI3";
         "password" => [
                         "required",
                         "alphanumeric",
-                        "min_lenght" => 8,
+                        "min_length" => 8,
                         "contains_int",
                         "contains_lower",
                         "contains_upper",
@@ -113,13 +113,13 @@ $check_test = [
     "first_name" => [
         "required",
         "string",
-        "min_lenght" => 4,
+        "min_length" => 4,
         "error_message" => "the firstname isn't a word or be inferior to 4 characters"
     ],
     "last_name" => [
         "required",
         "string",
-        "min_lenght" => 1,
+        "min_length" => 1,
         "not_alphanumeric",
         "error_message" => "the name isn't a word or be inferior to 1 characters"
     ],
@@ -143,8 +143,8 @@ $check_test = [
         "required",
         "string",
         "alphanumeric",
-        "min_lenght" => 5,
-        "max_lenght" => 5
+        "min_length" => 5,
+        "max_length" => 5
     ],
     "test" => [
         "required",
@@ -153,7 +153,7 @@ $check_test = [
     ],
     "password" => [
         "required",
-        "min_lenght" => 8,
+        "min_length" => 8,
         "not_alphanumeric",
         "contains_number",
         "contains_lower",
@@ -234,7 +234,7 @@ function printTable($infos, $array)
 <?php
 
 $checker = new datas_checker();
-$isCorrectDatas = $checker->check($datas1, $check_test);
+$isCorrectDatas = $checker->verify($datas1, $check_test);
 unset($checker);
 if(is_array($isCorrectDatas))
 {
@@ -242,7 +242,7 @@ if(is_array($isCorrectDatas))
 }
 
 $checker = new datas_checker();
-$isCorrectDatas = $checker->check($datas2, $check_test);
+$isCorrectDatas = $checker->verify($datas2, $check_test);
 unset($checker);
 if(is_array($isCorrectDatas))
 {
@@ -250,7 +250,7 @@ if(is_array($isCorrectDatas))
 }
 
 $checker = new datas_checker();
-$isCorrectDatas = $checker->check($datas3, $check_test);
+$isCorrectDatas = $checker->verify($datas3, $check_test);
 unset($checker);
 if(is_array($isCorrectDatas))
 {
@@ -258,7 +258,7 @@ if(is_array($isCorrectDatas))
 }
 
 $checker = new datas_checker();
-$isCorrectDatas = $checker->check($datas4, $check_test);
+$isCorrectDatas = $checker->verify($datas4, $check_test);
 unset($checker);
 if(is_array($isCorrectDatas))
 {
