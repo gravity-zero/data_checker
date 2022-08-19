@@ -38,7 +38,7 @@ Here are the different methods currently implemented to verify your data set:
 - max_length => type number
 - min_length => type number
 
-####Example
+#### Example
 ```php 
 
     // NUMBER TEST
@@ -65,7 +65,7 @@ $control_tests = [
 ];
 ```
 
-###Steps to build verification array & launch tests
+### Steps to build verification array & launch tests
 <b>First step</b>, you need to create an array with the fields you want to verify:
 ```php
 $control_tests = [
