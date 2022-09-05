@@ -116,20 +116,20 @@ $control_tests =
                 "required",
                 "date",
                 "greater_than" => "2016-01-01",
-                "error_message" => "the creation date isn't date or be superior to '2016-01-01'"
+                "error_message" => "the creation date isn't a date or be lower than '2016-01-01'"
             ],
             "first_name" => [
                 "required",
                 "string",
                 "min_length" => 4,
                 "not_alphanumeric",
-                "error_message" => "the firstname isn't a word or be inferior to 4 characters"
+                "error_message" => "the firstname isn't a word or be lower than 4 characters"
             ],
             "last_name" => [
                 "required",
                 "string",
                 "min_length" => 1,
-                "error_message" => "the name isn't a word or be inferior to 1 characters"
+                "error_message" => "the name isn't a word or be lower than 1 characters"
             ],
             "id" => [
                 "required",
@@ -140,7 +140,7 @@ $control_tests =
                 "required",
                 "ip_address",
                 "alphanumeric",
-                "error_message" => "the ip adress doesn't exist or not valid ip address"
+                "error_message" => "the ip address doesn't exist or not valid ip address"
             ],
             "email" => [
                 "required",
@@ -183,21 +183,21 @@ var_dump($isCorrectDatas);
 [ 
       0 => 
           [
-            'error_message' => 'the creation date isn\'t date or be superior to \'2016-01-01\'',
+            'error_message' => 'the creation date isn\'t date or be lower than \'2016-01-01\'',
             'data_eval' => '2015-31-01',
             'data_name' => 'creation_date',
             'test_name' => 'greater_than',
           ],
       1 => 
           [
-            'error_message' => 'the firstname isn\'t a word or be inferior to 4 characters',
+            'error_message' => 'the firstname isn\'t a word or be lower than 4 characters',
             'data_eval' => 4,
             'data_name' => 'first_name',
             'test_name' => 'string',
           ],
       2 => 
           [
-            'error_message' => 'the firstname isn\'t a word or be inferior to 4 characters',
+            'error_message' => 'the firstname isn\'t a word or be lower than 4 characters',
             'data_eval' => 4,
             'data_name' => 'first_name',
             'test_name' => 'min_length',

@@ -108,20 +108,20 @@ $check_test = [
         "required",
         "date",
         "greater_than" => "2016-01-01",
-        "error_message" => "the creation date isn't date or be superior to '2016-01-01'"
+        "error_message" => "the creation date isn't date or be lower than '2016-01-01'"
     ],
     "first_name" => [
         "required",
         "string",
         "min_length" => 4,
-        "error_message" => "the firstname isn't a word or be inferior to 4 characters"
+        "error_message" => "the firstname isn't a word or be lower than 4 characters"
     ],
     "last_name" => [
         "required",
         "string",
         "min_length" => 1,
         "not_alphanumeric",
-        "error_message" => "the name isn't a word or be inferior to 1 characters"
+        "error_message" => "the name isn't a word or be lower than 1 characters"
     ],
     "id" => [
         "required",
