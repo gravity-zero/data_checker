@@ -4,7 +4,7 @@ As its name suggests, data checker allows you to quickly check if your array ele
 
 <b>PHP version >= 5.4</b>
 
-![](https://github.com/gravity-zero/datas_checker/blob/master/documentation/imgs/composer_logo.png)
+![](https://github.com/gravity-zero/datas_checker/blob/master/documentation/imgs/composer-logo.png)
  ### Install with Composer
 ```
 composer require gravity/datas_checker
