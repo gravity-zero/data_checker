@@ -1,5 +1,7 @@
 <?php
-require_once "../Datas_checker.php";
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Gravity\Datas_checker;
 
 $datas1 = [
             "creation_date" => "2017-01-01",
@@ -162,7 +164,6 @@ $check_test = [
     ]
 ];
 
-
 function printTable($infos, $array)
 {
     $table = "<h3>TEST ".$infos."</h3>";
@@ -233,7 +234,7 @@ function printTable($infos, $array)
 
 <?php
 
-$checker = new datas_checker();
+$checker = new Datas_checker();
 $isCorrectDatas = $checker->verify($datas1, $check_test);
 unset($checker);
 if(is_array($isCorrectDatas))
@@ -241,7 +242,7 @@ if(is_array($isCorrectDatas))
     printTable("- 1", $isCorrectDatas);
 }
 
-$checker = new datas_checker();
+$checker = new Datas_checker();
 $isCorrectDatas = $checker->verify($datas2, $check_test);
 unset($checker);
 if(is_array($isCorrectDatas))
@@ -249,7 +250,7 @@ if(is_array($isCorrectDatas))
     printTable("- 2", $isCorrectDatas);
 }
 
-$checker = new datas_checker();
+$checker = new Datas_checker();
 $isCorrectDatas = $checker->verify($datas3, $check_test);
 unset($checker);
 if(is_array($isCorrectDatas))
@@ -257,7 +258,7 @@ if(is_array($isCorrectDatas))
     printTable("- 3", $isCorrectDatas);
 }
 
-$checker = new datas_checker();
+$checker = new Datas_checker();
 $isCorrectDatas = $checker->verify($datas4, $check_test);
 unset($checker);
 if(is_array($isCorrectDatas))

@@ -1,4 +1,4 @@
-# datas_checker
+# Datas_checker
 
 As its name suggests, data checker allows you to quickly check if your array elements are valid according to your criteria:
 
@@ -87,9 +87,9 @@ $control_tests = [
     ]
 ];
 ```
-<b>Third step</b>, create instance of <b>datas_checker</b> and use the verify method with your array or object data to verify, and your verification array.
+<b>Third step</b>, create instance of <b>Datas_checker</b> and use the verify method with your array or object data to verify, and your verification array.
 ```php
-$checker = new datas_checker();
+$checker = new Datas_checker();
 $isCorrectDatas = $checker->verify($datas_to_check, $control_tests);
 ```
 
@@ -170,7 +170,7 @@ $control_tests =
             ]
         ];
                   
-$datas_control = new datas_checker();
+$datas_control = new Datas_checker();
 $isCorrectDatas = $datas_control->verify($datas_to_check, $control_tests);
 ```
 

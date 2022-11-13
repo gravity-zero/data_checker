@@ -4,6 +4,9 @@
  * Class datas_checker
  * @link https://github.com/gravity-zero/datas_checker
  */
+
+namespace Gravity;
+
 class Datas_checker
 {
     private $errors = [];
@@ -11,9 +14,9 @@ class Datas_checker
     const DISPOSABLE = ["@yopmail", "@ymail", "@jetable", "@trashmail", "@jvlicenses", "@temp-mail", "@emailnax", "@datakop"];
 
     /**
-     * @param array $datas
+     * @param array|object $datas
      * @param array $check_rules
-     * @return bool|array Errors or true
+     * @return bool|array Errors array or true
      */
     public function verify(array|object $datas,array $check_rules): bool|array
     {
@@ -101,7 +104,7 @@ class Datas_checker
 
     private function date($data)
     {
-        if(!DateTime::createFromFormat('Y-m-d', $data)) return false;
+        if(!\DateTime::createFromFormat('Y-m-d', $data)) return false;
         return true;
     }
 
@@ -162,7 +165,7 @@ class Datas_checker
     private function contains_upper($data)
     {
         $upper = false;
-        foreach(str_split($data) as $char)
+        foreach($this->str_split($data) as $char)
         {
             if(ctype_upper($char) && !is_numeric($char)) return true;
         }
@@ -171,7 +174,7 @@ class Datas_checker
 
     private function contains_lower($data)
     {
-        foreach(str_split($data) as $char)
+        foreach($this->str_split($data) as $char)
         {
             if(ctype_lower($char) && !is_numeric($char)) return true;
         }
@@ -180,7 +183,7 @@ class Datas_checker
 
     private function contains_number($data)
     {
-        foreach(str_split($data) as $char)
+        foreach($this->str_split($data) as $char)
         {
             if(is_numeric($char)) return true;
         }
@@ -195,6 +198,7 @@ class Datas_checker
 
     private function not_alphanumeric($data)
     {
+        if (ctype_alnum($data)) return false;
         if (!preg_match("/^[a-zA-Z éèùëêûîìàòÀÈÉÌÒÙâôöüïäÏÖÜÄËÂÊÎÔÛ'-]+$/", $data)) return false;
         return true;
     }
@@ -205,17 +209,24 @@ class Datas_checker
         return true;
     }
 
+    private function str_split($data)
+    {
+        if((int)PHP_VERSION >= 8) return str_split($data);
+
+        return explode("", $data);
+    }
+
     private function set_error($message, $value=null, $data_name=null, $test_name=null)
     {
         $this->errors[] = ["error_message" => $message, "data_eval" => !empty($value) ? $value : "EMPTY", "data_name" => !empty($this->alias) ? $this->alias : $data_name, "test_name" => $test_name];
     }
 
-    public function get_errors()
+    public function get_errors(): array
     {
         return $this->errors;
     }
 
-    private function array_control($datas, $check_rules)
+    private function array_control($datas, $check_rules): bool
     {
         if(is_array($datas) && is_array($check_rules)) return true;
 
