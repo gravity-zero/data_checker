@@ -110,6 +110,11 @@ $isCorrectDatas = $checker->verify($datas_to_check, $control_tests);
 ### Full Example : 
 
 ```php 
+
+<?php
+
+use Gravity\Datas_checker;
+
 // Can be an array (like $_POST) or an object
 $datas_to_check =
         [
