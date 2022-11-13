@@ -11,10 +11,11 @@
     "authors": [
         {
             "name": "gravity-zero",
-            "email": "gravity.neo@gmail.com"
+            "email": "romain.feregotto@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "require": {
         "php": ">=5.3.0"
     }
