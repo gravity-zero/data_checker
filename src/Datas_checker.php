@@ -116,7 +116,7 @@ class Datas_checker
 
     private function int($data)
     {
-        if(!is_int((int)$data)) return false;
+        if(!is_int($data) && !(is_string($data) && filter_var($data, FILTER_VALIDATE_INT))) return false;
         return true;
     }
 
