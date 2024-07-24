@@ -1,7 +1,7 @@
 <?php
-require_once "../Datas_checker.php";
+require_once "../Data_checker.php";
 
-$datas1 = [
+$data1 = [
             "creation_date" => "2017-01-01",
             "first_name" => "John",
             "last_name" => "Paul",
@@ -12,7 +12,7 @@ $datas1 = [
             "captcha" => "25EC5"
         ];
 
-$datas2 = [
+$data2 = [
             "creation_date" => "2015-31-01",
             "first_name" => 4,
             "last_name" => "Paul",
@@ -24,7 +24,7 @@ $datas2 = [
             "password" => "azerty123"
         ];
 
-$datas3 = [
+$data3 = [
             "creation_date" => "2018-01-01",
             "first_name" => "random string",
             "last_name" => "true",
@@ -36,15 +36,15 @@ $datas3 = [
             "password" => "12345"
         ];
 
-$datas4 = new stdClass();
-$datas4->creation_date = "2018-01-01";
-$datas4->first_name = "lo4";
-$datas4->last_name = "Bob";
-$datas4->id = 4;
-$datas4->ip = "::1";
-$datas4->email = "tootoo@test.com";
-$datas4->password = "ThisIsP4\$\$w0rd";
-$datas4->captcha = "4DEI3";
+$data4 = new stdClass();
+$data4->creation_date = "2018-01-01";
+$data4->first_name = "lo4";
+$data4->last_name = "Bob";
+$data4->id = 4;
+$data4->ip = "::1";
+$data4->email = "tootoo@test.com";
+$data4->password = "ThisIsP4\$\$w0rd";
+$data4->captcha = "4DEI3";
 
 
 /* French Version */
@@ -233,36 +233,36 @@ function printTable($infos, $array)
 
 <?php
 
-$checker = new datas_checker();
-$isCorrectDatas = $checker->verify($datas1, $check_test);
+$checker = new Data_checker();
+$isCorrectData = $checker->verify($data1, $check_test);
 unset($checker);
-if(is_array($isCorrectDatas))
+if(is_array($isCorrectData))
 {
-    printTable("- 1", $isCorrectDatas);
+    printTable("- 1", $isCorrectData);
 }
 
-$checker = new datas_checker();
-$isCorrectDatas = $checker->verify($datas2, $check_test);
+$checker = new Data_checker();
+$isCorrectData = $checker->verify($data2, $check_test);
 unset($checker);
-if(is_array($isCorrectDatas))
+if(is_array($isCorrectData))
 {
-    printTable("- 2", $isCorrectDatas);
+    printTable("- 2", $isCorrectData);
 }
 
-$checker = new datas_checker();
-$isCorrectDatas = $checker->verify($datas3, $check_test);
+$checker = new Data_checker();
+$isCorrectData = $checker->verify($data3, $check_test);
 unset($checker);
-if(is_array($isCorrectDatas))
+if(is_array($isCorrectData))
 {
-    printTable("- 3", $isCorrectDatas);
+    printTable("- 3", $isCorrectData);
 }
 
-$checker = new datas_checker();
-$isCorrectDatas = $checker->verify($datas4, $check_test);
+$checker = new Data_checker();
+$isCorrectData = $checker->verify($data4, $check_test);
 unset($checker);
-if(is_array($isCorrectDatas))
+if(is_array($isCorrectData))
 {
-    printTable("- Object - 4", $isCorrectDatas);
+    printTable("- Object - 4", $isCorrectData);
 }
 
 ?>

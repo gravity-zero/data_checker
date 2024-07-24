@@ -1,4 +1,4 @@
-# datas_checker
+# data_checker
 
 As its name suggests, data checker allows you to quickly check if your array elements are valid according to your criteria:
 
@@ -87,17 +87,18 @@ $control_tests = [
     ]
 ];
 ```
-<b>Third step</b>, create instance of <b>datas_checker</b> and use the verify method with your array or object data to verify, and your verification array.
+<b>Third step</b>, create instance of <b>data_checker</b> and use the verify method with your array or object data to verify, and your verification array.
+
 ```php
-$checker = new datas_checker();
-$isCorrectDatas = $checker->verify($datas_to_check, $control_tests);
+$checker = new Data_checker();
+$isCorrectdata = $checker->verify($data_to_check, $control_tests);
 ```
 
 ### Full Example : 
 
 ```php 
 // Can be an array (like $_POST) or an object
-$datas_to_check =
+$data_to_check =
         [
             "creation_date" => "2015-31-01",
             "first_name" => 4,
@@ -170,15 +171,15 @@ $control_tests =
             ]
         ];
                   
-$datas_control = new datas_checker();
-$isCorrectDatas = $datas_control->verify($datas_to_check, $control_tests);
+$data_control = new data_checker();
+$isCorrectdata = $data_control->verify($data_to_check, $control_tests);
 ```
 
 ### Result table:
-![](https://github.com/gravity-zero/datas_checker/blob/master/documentation/imgs/result_table.png)
+![](https://github.com/gravity-zero/data_checker/blob/master/documentation/imgs/result_table.png)
 ### Result php:
 ```php 
-var_dump($isCorrectDatas);
+var_dump($isCorrectdata);
     
 [ 
       0 => 
@@ -249,4 +250,4 @@ var_dump($isCorrectDatas);
 
 As you can see, you have everything you need to display a suitable message.
 
-Hope this little tool will save you some time to check the validity of your datasets :)
+Hope this little tool will save you some time to check the validity of your dataets :)

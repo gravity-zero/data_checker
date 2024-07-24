@@ -1,43 +1,48 @@
 <?php
 
 /**
- * Class datas_checker
- * @link https://github.com/gravity-zero/datas_checker
+ * Class data_checker
+ * @link https://github.com/gravity-zero/data_checker
  */
-class Datas_checker
+class Data_checker
 {
-    private $errors = [];
-    public $alias;
+    private array $errors = [];
+    public string $alias;
     const DISPOSABLE = ["@yopmail", "@ymail", "@jetable", "@trashmail", "@jvlicenses", "@temp-mail", "@emailnax", "@datakop"];
 
     /**
-     * @param array $datas
+     * @param array|object $data
      * @param array $check_rules
      * @return bool|array Errors or true
      */
-    public function verify(array|object $datas,array $check_rules): bool|array
+    public function verify(array|object $data,array $check_rules): bool|array
     {
-        $datas = (array)$datas; // cast object as array
+        $data = (array)$data; // cast object as array
 
-        if($this->array_control($datas, $check_rules))
+        if($this->array_control($data, $check_rules))
         {
             foreach($check_rules as $control_name=>$controls)
             {
                 $this->alias = array_key_exists("alias", $controls) ? $controls["alias"] : "";
 
-                if(array_key_exists($control_name, $datas))
+                if(array_key_exists($control_name, $data))
                 {
                     if(!in_array("required", $controls))
                     {
-                        if(!empty($datas[$control_name]))
+                        if(!empty($data[$control_name]))
                         {
-                            $this->search_method($controls, $datas[$control_name], $control_name);
+                            $this->search_method($controls, $data[$control_name], $control_name);
                         }
                     }else{
-                        $this->search_method($controls, $datas[$control_name], $control_name);
+                        $this->search_method($controls, $data[$control_name], $control_name);
                     }
                 }elseif(in_array("required", $controls)){
-                    $this->set_error("The field ". $control_name . " is required but was not found");
+                    if(array_key_exists("error_message", $controls) && $controls['error_message'])
+                    {
+                        $this->set_error($controls["error_message"]);
+                    }else{
+                        $this->set_error("The field ". $control_name . " is required but was not found");
+                    }
                 }
             }
         }
@@ -50,7 +55,7 @@ class Datas_checker
      * @param $data
      * @param $key_checked
      */
-    private function search_method($controls, $data, $key_checked)
+    private function search_method($controls, $data, $key_checked): void
     {
         foreach($controls as $key=>$value)
         {
@@ -79,13 +84,13 @@ class Datas_checker
         }
     }
 
-    private function required($data)
+    private function required($data): bool
     {
         if(!isset($data) || empty($data)) return false;
         return true;
     }
 
-    private function disposable_email($data)
+    private function disposable_email($data): bool
     {
         $domain = explode(".", strstr($data, "@"));
         if(in_array($domain[0], self::DISPOSABLE)) return false;
@@ -93,73 +98,73 @@ class Datas_checker
         return true;
     }
 
-    private function street_address($data)
+    private function street_address($data): bool
     {
         if (!@preg_match("/^[a-zA-Z0-9 'éèùëêûîìàòÀÈÉÌÒÙâôöüïäÏÖÜÄËÂÊÎÔÛ-]+$/", $data)) return false;
         return true;
     }
 
-    private function date($data)
+    private function date($data): bool
     {
         if(!DateTime::createFromFormat('Y-m-d', $data)) return false;
         return true;
     }
 
-    private function numeric($data)
+    private function numeric($data): bool
     {
         if(!is_numeric($data)) return false;
         return true;
     }
 
-    private function int($data)
+    private function int($data): bool
     {
         if(!is_int((int)$data)) return false;
         return true;
     }
 
-    private function email($data)
+    private function email($data): bool
     {
         if(!filter_var($data, FILTER_VALIDATE_EMAIL)) return false;
         return true;
     }
 
-    private function ip_address($data)
+    private function ip_address($data): bool
     {
         if(!filter_var($data, FILTER_VALIDATE_IP, [FILTER_FLAG_IPV4, FILTER_FLAG_IPV6])) return false;
         return true;
     }
 
-    private function greater_than($data, $greater_than)
+    private function greater_than($data, $greater_than): bool
     {
         if($data < $greater_than) return false;
         return true;
     }
 
-    private function lower_than($data, $lower_than)
+    private function lower_than($data, $lower_than): bool
     {
         if($data > $lower_than) return false;
         return true;
     }
 
-    private function min_length($data, $length_greater)
+    private function min_length($data, $length_greater): bool
     {
         if(strlen($data) < $length_greater) return false;
         return true;
     }
 
-    private function max_length($data, $length_lower)
+    private function max_length($data, $length_lower): bool
     {
         if(strlen($data) > $length_lower) return false;
         return true;
     }
 
-    private function string($data)
+    private function string($data): bool
     {
         if(!is_string($data)) return false;
         return true;
     }
 
-    private function contains_upper($data)
+    private function contains_upper($data): bool
     {
         $upper = false;
         foreach(str_split($data) as $char)
@@ -169,7 +174,7 @@ class Datas_checker
         return false;
     }
 
-    private function contains_lower($data)
+    private function contains_lower($data): bool
     {
         foreach(str_split($data) as $char)
         {
@@ -178,7 +183,7 @@ class Datas_checker
         return false;
     }
 
-    private function contains_number($data)
+    private function contains_number($data): bool
     {
         foreach(str_split($data) as $char)
         {
@@ -187,37 +192,37 @@ class Datas_checker
         return false;
     }
 
-    private function alphanumeric($data)
+    private function alphanumeric($data): bool
     {
         if (!ctype_alnum($data)) return false;
         return true;
     }
 
-    private function not_alphanumeric($data)
+    private function not_alphanumeric($data): bool
     {
         if (!preg_match("/^[a-zA-Z éèùëêûîìàòÀÈÉÌÒÙâôöüïäÏÖÜÄËÂÊÎÔÛ'-]+$/", $data)) return false;
         return true;
     }
 
-    private function contains_special_character($data)
+    private function contains_special_character($data): bool
     {
         if(!preg_match('/[\'^£$%&*()}{@#~?><,|=_+¬-]/', $data)) return false;
         return true;
     }
 
-    private function set_error($message, $value=null, $data_name=null, $test_name=null)
+    private function set_error($message, $value=null, $data_name=null, $test_name=null): void
     {
         $this->errors[] = ["error_message" => $message, "data_eval" => !empty($value) ? $value : "EMPTY", "data_name" => !empty($this->alias) ? $this->alias : $data_name, "test_name" => $test_name];
     }
 
-    public function get_errors()
+    public function get_errors(): array
     {
         return $this->errors;
     }
 
-    private function array_control($datas, $check_rules)
+    private function array_control($data, $check_rules): bool
     {
-        if(is_array($datas) && is_array($check_rules)) return true;
+        if(is_array($data) && is_array($check_rules)) return true;
 
         $this->set_error("Datas or Rules checker aren't an array");
         return false;
