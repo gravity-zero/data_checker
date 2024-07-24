@@ -1,5 +1,8 @@
 <?php
-require_once "../Data_checker.php";
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Gravity\src\Data_checker;
 
 $data1 = [
             "creation_date" => "2017-01-01",
@@ -162,7 +165,6 @@ $check_test = [
     ]
 ];
 
-
 function printTable($infos, $array)
 {
     $table = "<h3>TEST ".$infos."</h3>";
@@ -240,6 +242,7 @@ if(is_array($isCorrectData))
 {
     printTable("- 1", $isCorrectData);
 }
+
 
 $checker = new Data_checker();
 $isCorrectData = $checker->verify($data2, $check_test);

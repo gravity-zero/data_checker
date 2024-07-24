@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-require_once __DIR__ . '/../Data_checker.php';
+use Gravity\Datas_checker;
 
 class ShortTest extends \PHPUnit\Framework\TestCase
 {

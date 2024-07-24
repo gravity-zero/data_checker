@@ -4,6 +4,21 @@ As its name suggests, data checker allows you to quickly check if your array ele
 
 <b>PHP version >= 5.4</b>
 
+
+### Install with Composer
+![](https://github.com/gravity-zero/datas_checker/blob/master/documentation/imgs/composer-logo.png)
+```
+composer require gravity/datas_checker
+ ```
+
+### Require with PSR-4 & Composer
+```php
+<?php
+
+use Gravity\Datas_checker;
+
+```
+
 ### Available methods:
 
 Here are the different methods currently implemented to verify your data set:
@@ -97,6 +112,11 @@ $isCorrectdata = $checker->verify($data_to_check, $control_tests);
 ### Full Example : 
 
 ```php 
+
+<?php
+
+use Gravity\Datas_checker;
+
 // Can be an array (like $_POST) or an object
 $data_to_check =
         [
