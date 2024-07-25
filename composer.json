@@ -1,5 +1,5 @@
 {
-    "name": "gravity/datas_checker",
+    "name": "gravity/data_checker",
     "description": "Control validity of datas by field name (Array or Object)",
     "type": "library",
     "license": "MIT",

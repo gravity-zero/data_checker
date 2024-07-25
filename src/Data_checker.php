@@ -88,7 +88,7 @@ class Data_checker
 
     private function required($data): bool
     {
-        if(!isset($data) || empty($data)) return false;
+        if(empty($data)) return false;
         return true;
     }
 
@@ -213,14 +213,14 @@ class Data_checker
         return true;
     }
 
-    private function str_split($data)
+    private function str_split($data): array
     {
         if((int)PHP_VERSION >= 8) return str_split($data);
 
         return explode("", $data);
     }
 
-    private function set_error($message, $value=null, $data_name=null, $test_name=null)
+    private function set_error($message, $value=null, $data_name=null, $test_name=null): void
     {
         $this->errors[] = ["error_message" => $message, "data_eval" => !empty($value) ? $value : "EMPTY", "data_name" => !empty($this->alias) ? $this->alias : $data_name, "test_name" => $test_name];
     }
@@ -234,7 +234,7 @@ class Data_checker
     {
         if(is_array($data) && is_array($check_rules)) return true;
 
-        $this->set_error("Datas or Rules checker aren't an array");
+        $this->set_error("Data or Rules checker aren't an array");
         return false;
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Gravity\Datas_checker;
+use Gravity\Data_checker;
 
 class ShortTest extends \PHPUnit\Framework\TestCase
 {
@@ -27,7 +27,6 @@ class ShortTest extends \PHPUnit\Framework\TestCase
                 "required",
                 "string",
                 "min_length" => 1,
-                "not_alphanumeric",
                 "error_message" => "the name isn't a word or be lower than 1 characters"
             ],
             "id" => [
